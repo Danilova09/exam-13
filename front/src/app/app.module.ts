@@ -28,6 +28,9 @@ import { UserTypeDirective } from './directives/user-type.directive';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { CenteredCardComponent } from './ui/centered-card/centered-card.component';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -48,6 +51,9 @@ const socialConfig: SocialAuthServiceConfig = {
     HomeComponent,
     HasRolesDirective,
     UserTypeDirective,
+    LoginComponent,
+    RegisterComponent,
+    CenteredCardComponent,
   ],
   imports: [
     BrowserModule,
