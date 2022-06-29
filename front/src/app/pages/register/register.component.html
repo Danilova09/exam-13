@@ -1,45 +1,73 @@
 <app-centered-card title="Register">
-  <form
-    #f="ngForm"
-    fxLayout="column"
-    autocomplete="off"
-    (ngSubmit)="onSubmit()"
-  >
+  <form fxLayout="column"
+        fxLayoutAlign="center"
+        #f="ngForm"
+        (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input type="text"
+             name="displayName"
+             matInput
+             required
+             #displayName="ngModel"
+             ngModel>
+      <mat-error *ngIf="displayName.touched && displayName.hasError('required')">
+        Name is required!
+      </mat-error>
+    </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
-      <input
-        type="email" name="email" autocomplete="username"
-        email required matInput ngModel #email="ngModel"
-      />
+      <input type="text"
+             name="email"
+             autocomplete="username"
+             email
+             required
+             matInput
+             ngModel
+             #email="ngModel">
       <mat-error *ngIf="email.touched && email.hasError('required')">
         Email is required!
       </mat-error>
       <mat-error *ngIf="email.touched && email.hasError('email')">
-        Enter correct email!
+        Enter valid email!
       </mat-error>
       <mat-error *ngIf="email.touched && email.hasError('serverError')">
         {{ email.getError('serverError') }}
       </mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input
-        type="password" name="password" autocomplete="new-password"
-        required matInput ngModel #password="ngModel"
-      />
+      <input type="password"
+             matInput
+             required
+             name="password"
+             #password="ngModel"
+             ngModel>
       <mat-error *ngIf="password.touched && password.hasError('required')">
-        Password is required!
+        Enter password!
       </mat-error>
     </mat-form-field>
-
-    <button
-      type="submit"
-      mat-raised-button
-      color="primary"
-      [disabled]="f.invalid"
-    >
-      REGISTER
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm password</mat-label>
+      <input type="password"
+             name="confirmPassword"
+             ngValidateEqual="password"
+             #confirmPassword="ngModel"
+             ngModel
+             matInput
+             required>
+      <mat-error *ngIf="confirmPassword.touched && confirmPassword.hasError('notEqual')">
+        Password doesn't match!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Avatar</mat-label>
+      <app-file-input name="avatar"
+                      ngModel></app-file-input>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary">REGISTER
     </button>
   </form>
 </app-centered-card>
+

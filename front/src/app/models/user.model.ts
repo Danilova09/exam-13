@@ -1,13 +1,18 @@
-export interface User {
-  _id: string,
+export interface RegisterUserData {
+  [key: string]: any,
+  displayName: string,
   email: string,
-  token: string,
-  role: string,
+  avatar: File | null,
+  password: string,
 }
 
-export interface RegisterUserData {
+export interface User {
+  _id: string,
+  displayName: string,
   email: string,
-  password: string
+  avatar: string,
+  role: string,
+  token: string,
 }
 
 export interface LoginUserData {
@@ -15,17 +20,17 @@ export interface LoginUserData {
   password: string,
 }
 
+export interface LoginError {
+  error: string;
+}
+
 export interface FieldError {
-  message: string
+  message: string,
 }
 
 export interface RegisterError {
   errors: {
     password: FieldError,
-    email: FieldError
-  }
-}
-
-export interface LoginError {
-  error: string
+    email: FieldError,
+  };
 }

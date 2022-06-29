@@ -1,70 +1,90 @@
 const express = require('express');
-const mongoose = require("mongoose");
-const User = require("../models/User");
-const config = require('../config');
-const axios = require('axios');
+const multer = require('multer');
 const {nanoid} = require('nanoid');
-
+const path = require('path');
+const User = require('../models/User');
+const mongoose = require("mongoose");
+const config = require('../config');
+const axios = require("axios");
 const router = express.Router();
+const download = require('image-downloader');
 
-router.post('/', async (req, res, next) => {
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, config.avatarsUploadPath);
+    },
+    filename: (req, file, cb) => {
+        cb(null, nanoid() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({storage});
+
+
+router.get('/', async (req, res, next) => {
     try {
-        const user = new User({
+        const users = await User.find();
+        res.send(users);
+    } catch (e) {
+        next(e);
+    }
+})
+
+router.post('/', upload.single('avatar'), async (req, res, next) => {
+    try {
+        const userData = {
             email: req.body.email,
-            password: req.body.password
-        });
-
-        user.generateToken();
-        await user.save();
-
-        return res.send(user);
-    } catch (error) {
-        if (error instanceof mongoose.Error.ValidationError) {
-            return res.status(400).send(error);
+            password: req.body.password,
+            displayName: req.body.displayName,
         }
 
-        return next(error);
+        if (req.file) {
+            userData.avatar = req.file.filename;
+        } else {
+            userData.avatar = null;
+        }
+
+        const user = new User(userData);
+        user.generateToken();
+        await user.save();
+        res.send(user);
+    } catch (error) {
+        if (error instanceof mongoose.Error.ValidationError) {
+            res.status(400).send(error);
+        }
+        next(error);
     }
 });
 
 router.post('/sessions', async (req, res, next) => {
     try {
         const user = await User.findOne({email: req.body.email});
-
         if (!user) {
             return res.status(400).send({error: 'Email not found'});
         }
-
         const isMatch = await user.checkPassword(req.body.password);
 
         if (!isMatch) {
             return res.status(400).send({error: 'Password is wrong'});
         }
-
         user.generateToken();
         await user.save();
-
         return res.send(user);
-    } catch (e) {
-        next(e);
+    } catch (error) {
+        next(error);
     }
 });
 
 router.delete('/sessions', async (req, res, next) => {
     try {
         const token = req.get('Authorization');
-        const message = {message: 'OK'};
-
-        if (!token) return res.send(message);
-
         const user = await User.findOne({token});
-
-        if (!user) return res.send(message);
-
+        if (!user) return res.send({error: 'Token not found'});
         user.generateToken();
         await user.save();
 
-        return res.send(message);
+        res.send({message: 'Logged out'});
     } catch (e) {
         next(e);
     }
@@ -88,18 +108,24 @@ router.post('/facebookLogin', async (req, res, next) => {
 
         let user = await User.findOne({facebookId: req.body.id});
 
+        const filename = nanoid() + '.jpeg';
+        const usersAvatarUrl = req.body.response.picture.data.url;
+        const options = {url: usersAvatarUrl, dest: config.avatarsUploadPath + '/' + filename};
+
+        await download.image(options);
+
         if (!user) {
             user = new User({
                 email: req.body.email,
                 password: nanoid(),
                 facebookId: req.body.id,
-                displayName: req.body.name
+                displayName: req.body.name,
+                avatar: filename,
             });
         }
 
         user.generateToken();
         await user.save();
-
         return res.send(user);
     } catch (e) {
         next(e);

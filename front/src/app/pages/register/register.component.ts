@@ -2,9 +2,9 @@ import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AppState } from '../../store/types';
 import { Store } from '@ngrx/store';
-import { RegisterError } from '../../models/user.model';
-import { Observable, Subscription } from 'rxjs';
 import { registerUserRequest } from '../../store/users.actions';
+import { Observable, Subscription } from 'rxjs';
+import { RegisterError } from '../../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +13,9 @@ import { registerUserRequest } from '../../store/users.actions';
 })
 export class RegisterComponent implements AfterViewInit, OnDestroy {
   @ViewChild('f') form!: NgForm;
-  error: Observable<null | RegisterError>;
+  loading!: Observable<boolean>;
+  error!: Observable<null| RegisterError>;
   errorSub!: Subscription;
-  loading: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
     this.error = store.select(state => state.users.registerError);
@@ -26,6 +26,7 @@ export class RegisterComponent implements AfterViewInit, OnDestroy {
     this.errorSub = this.error.subscribe(error => {
       if (error) {
         const msg = error.errors.email.message;
+        console.log(msg);
         this.form.form.get('email')?.setErrors({serverError: msg});
       } else {
         this.form.form.get('email')?.setErrors({});
@@ -34,10 +35,11 @@ export class RegisterComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
-    this.store.dispatch(registerUserRequest({userData: this.form.value}));
+    const userData = this.form.value;
+    this.store.dispatch(registerUserRequest({userData}));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.errorSub.unsubscribe();
   }
 }

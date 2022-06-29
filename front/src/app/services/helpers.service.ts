@@ -12,7 +12,7 @@ export class HelpersService {
 
   openSnackbar(message: string, action?: string, config?: MatSnackBarConfig) {
     if (!config || !config.duration) {
-      config = {...config, duration: 3000};
+      config = {...config, duration: 3000, panelClass: ['mat-toolbar', 'mat-primary']};
     }
 
     if (!action) {

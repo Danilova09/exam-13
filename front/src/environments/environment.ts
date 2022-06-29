@@ -5,6 +5,9 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8000',
+  artistsUploadPath: 'http://localhost:8000/uploads/images/artists/',
+  albumsUploadPath: 'http://localhost:8000/uploads/images/albums/',
+  avatarsUploadPath: 'http://localhost:8000/uploads/images/avatars/',
   fbAppId: 'id of fb'
 };
 

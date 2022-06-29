@@ -31,6 +31,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { CenteredCardComponent } from './ui/centered-card/centered-card.component';
+import { FileInputComponent } from './ui/file-input/file-input.component';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -54,6 +55,7 @@ const socialConfig: SocialAuthServiceConfig = {
     LoginComponent,
     RegisterComponent,
     CenteredCardComponent,
+    FileInputComponent,
   ],
   imports: [
     BrowserModule,

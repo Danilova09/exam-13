@@ -6,17 +6,15 @@ import {
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
+  loginWithFbRequest,
   logoutUser,
   logoutUserRequest,
   registerUserFailure,
   registerUserRequest,
-  registerUserSuccess
+  registerUserSuccess,
 } from './users.actions';
 import { map, mergeMap, tap } from 'rxjs';
 import { HelpersService } from '../services/helpers.service';
-import { AppState } from './types';
-import { Store } from '@ngrx/store';
-import { SocialAuthService } from 'angularx-social-login';
 
 @Injectable()
 export class UsersEffects {
@@ -25,10 +23,7 @@ export class UsersEffects {
     private usersService: UsersService,
     private router: Router,
     private helpers: HelpersService,
-    private store: Store<AppState>,
-    private auth: SocialAuthService,
-  ) {
-  }
+  ) {}
 
   registerUser = createEffect(() => this.actions.pipe(
     ofType(registerUserRequest),
@@ -54,14 +49,25 @@ export class UsersEffects {
     ))
   ));
 
+  loginWithFb = createEffect(() => this.actions.pipe(
+    ofType(loginWithFbRequest),
+    mergeMap(({userData}) => this.usersService.loginWithFb(userData).pipe(
+      map(user => loginUserSuccess({user})),
+      tap(() => {
+        this.helpers.openSnackbar('Login successful');
+        void this.router.navigate(['/']);
+      }),
+      this.helpers.catchServerError(loginUserFailure)
+    ))
+  ));
+
   logoutUser = createEffect(() => this.actions.pipe(
     ofType(logoutUserRequest),
     mergeMap(() => {
       return this.usersService.logout().pipe(
         map(() => logoutUser()),
-        tap(async () => {
-          await this.auth.signOut();
-          await this.router.navigate(['/']);
+        tap(() => {
+          void this.router.navigate(['/']);
           this.helpers.openSnackbar('Logout successful');
         })
       );
