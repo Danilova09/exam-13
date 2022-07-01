@@ -1,0 +1,22 @@
+<app-centered-card title="Profile">
+  <div class="user-profile-img-wrapper">
+    <img
+      *ngIf="userData?.avatar"
+      class="user-profile-img"
+      [src]="env.avatarsUploadPath + userData?.avatar"
+      [alt]="userData?.displayName">
+    <img
+      *ngIf="!userData?.avatar"
+      class="user-profile-img"
+      src="./assets/icons/noPic.svg"
+      [alt]="userData?.displayName">
+  </div>
+  <p><strong>Name:</strong> {{ userData?.displayName }}</p>
+  <p><strong>Email:</strong> {{ userData?.email }}</p>
+  <div class="profile-actions">
+    <a mat-raised-button
+       class="edit-btn"
+       color="primary"
+       routerLink="/edit-profile">EDIT PROFILE</a>
+  </div>
+</app-centered-card>

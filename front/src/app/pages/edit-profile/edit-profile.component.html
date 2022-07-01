@@ -1,0 +1,63 @@
+<app-centered-card title="Edit profile">
+  <form fxLayout="column"
+        fxLayoutAlign="center"
+        #f="ngForm"
+  >
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input type="text"
+             name="displayName"
+             matInput
+             required
+             #displayName="ngModel"
+             ngModel>
+      <mat-error *ngIf="displayName.touched && displayName.hasError('required')">
+        Name is required!
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input type="text"
+             name="email"
+             autocomplete="username"
+             email
+             required
+             matInput
+             ngModel
+             #email="ngModel">
+      <mat-error *ngIf="email.touched && email.hasError('required')">
+        Email is required!
+      </mat-error>
+      <mat-error *ngIf="email.touched && email.hasError('email')">
+        Enter valid email!
+      </mat-error>
+      <mat-error *ngIf="email.touched && email.hasError('serverError')">
+        {{ email.getError('serverError') }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="file-input-wrapper">
+      <mat-form-field class="file-input-wrapper_field"
+                      appearance="outline">
+        <mat-label>{{ isAvatarExists ? userData?.displayName : ' '}}</mat-label>
+        <app-file-input name="avatar"
+                        ngModel></app-file-input>
+      </mat-form-field>
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        class="remove-avatar-btn"
+        (click)="onRemoveAvatar()"
+      >Delete
+      </button>
+    </div>
+
+    <button mat-raised-button
+            (click)="edit()"
+            color="primary">
+      EDIT
+    </button>
+  </form>
+</app-centered-card>
+

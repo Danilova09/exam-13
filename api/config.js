@@ -17,13 +17,14 @@ module.exports = {
         'http://localhost:4210',
     ],
     rootPath,
+    avatarsUploadPath: path.join(rootPath, 'public/uploads/images/avatars'),
     uploadPath: path.join(rootPath, 'public/uploads'),
     mongo: {
         db: dbUrl,
         options: {useNewUrlParser: true},
     },
     facebook: {
-        appId: '718422199316941',
-        appSecret: 'e822dc5e22ab51742e7d8b8ec4d8b6f9'
+        appId: '604062117590390',
+        appSecret: '4b3ebfffaa9b12649084a85d69f648a5'
     }
 };

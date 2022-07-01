@@ -6,6 +6,7 @@ import { AppState } from '../../store/types';
 import { Store } from '@ngrx/store';
 import { User } from '../../models/user.model';
 import { logoutUserRequest } from '../../store/users.actions';
+import { environment as env } from '../../../environments/environment';
 
 @Component({
   selector: 'app-layout',
@@ -13,6 +14,7 @@ import { logoutUserRequest } from '../../store/users.actions';
   styleUrls: ['./layout.component.sass']
 })
 export class LayoutComponent {
+  env = env;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

@@ -8,6 +8,7 @@ const config = require('../config');
 const axios = require("axios");
 const router = express.Router();
 const download = require('image-downloader');
+const auth = require("../middleware/auth");
 
 
 const storage = multer.diskStorage({
@@ -54,6 +55,33 @@ router.post('/', upload.single('avatar'), async (req, res, next) => {
             res.status(400).send(error);
         }
         next(error);
+    }
+});
+
+router.put('/edit-profile', auth, upload.single('avatar'), async (req, res, next) => {
+    try {
+        req.user['displayName'] = req.body.displayName;
+        req.user['email'] = req.body.email;
+
+        const updatedUserData = {
+            email: req.body.email,
+            displayName: req.body.displayName,
+            avatar: req.body.avatar === 'null' ? null : req.user.avatar,
+        }
+
+        if (req.file) {
+            updatedUserData.avatar = req.file.filename;
+        }
+
+        const user = await User.findOneAndUpdate({_id: req.user._id}, updatedUserData, {new: true});
+
+        return res.send(user);
+    } catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(e);
+        }
+
+        return next(e);
     }
 });
 

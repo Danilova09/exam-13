@@ -5,14 +5,21 @@
     autocomplete="off"
     (ngSubmit)="onSubmit()"
   >
-    <div *ngIf="error | async" class="error">
-      {{ (error | async)?.error }}
+    <div *ngIf="error | async"
+         class="error">
+      Wrong data!
     </div>
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input
-        type="email" name="email" autocomplete="username"
-        email required matInput ngModel #email="ngModel"
+        type="email"
+        name="email"
+        autocomplete="username"
+        email
+        required
+        matInput
+        ngModel
+        #email="ngModel"
       />
       <mat-error *ngIf="email.touched && email.hasError('required')">
         Email is required!
@@ -25,14 +32,21 @@
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
       <input
-        type="password" name="password" autocomplete="current-password"
-        required matInput ngModel #password="ngModel"
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        required
+        matInput
+        ngModel
+        #password="ngModel"
       />
       <mat-error *ngIf="password.touched && password.hasError('required')">
         Password is required!
       </mat-error>
     </mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="center" style="margin-bottom: 16px">
+    <div fxLayout="row"
+         fxLayoutAlign="center"
+         style="margin-bottom: 16px">
       <a routerLink="/register">Don't have an account? Sign Up</a>
     </div>
     <button
@@ -51,7 +65,8 @@
       (click)="fbLogin()"
       style="margin-top: 16px;"
     >
-      <img src="assets/icons/fb.svg" alt="facebook"/>
+      <img src="assets/icons/fb.svg"
+           alt="facebook"/>
       WITH FACEBOOK
     </button>
   </form>

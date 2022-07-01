@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginUserData, RegisterUserData, User } from '../models/user.model';
+import { EditUserData, LoginUserData, RegisterUserData, User } from '../models/user.model';
 import { environment as env } from '../../environments/environment';
 import { SocialUser } from 'angularx-social-login';
 import { AppState } from '../store/types';
@@ -18,6 +18,15 @@ export class UsersService {
       if (userData[key] !== null) formData.append(key, userData[key]);
     });
     return this.http.post<User>(env.apiUrl + '/users', formData);
+  }
+
+  edit(editData: EditUserData) {
+    const formData = new FormData();
+    Object.keys(editData).forEach((key) => {
+      formData.append(key, editData[key]);
+    });
+
+    return this.http.put<User>(env.apiUrl + '/users/edit-profile', formData);
   }
 
   login(userData: LoginUserData) {

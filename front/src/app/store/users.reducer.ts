@@ -1,6 +1,8 @@
 import { UsersState } from './types';
 import { createReducer, on } from '@ngrx/store';
 import {
+  editUserFailure,
+  editUserRequest, editUserSuccess,
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
@@ -27,6 +29,9 @@ export const usersReducer = createReducer(
   on(loginUserRequest, state => ({...state, loginLoading: true, loginError: null,})),
   on(loginUserSuccess, (state, {user}) => ({...state, loginLoading: false, user})),
   on(loginUserFailure, (state, {error}) => ({...state, loginLoading: false, loginError: error})),
+  on(editUserRequest, state => ({...state, editLoading: true, editError: null})),
+  on(editUserSuccess, (state, {user}) => ({...state, editLoading: false, user: user})),
+  on(editUserFailure, (state, {error}) => ({...state, editLoading: false, editError: error})),
   on(logoutUser, state => ({...state, user: null})),
   on(loginWithFbRequest, (state) => ({...state, loginLoading: true})),
 );

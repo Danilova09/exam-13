@@ -3,6 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
 import {
+  editUserFailure,
+  editUserRequest, editUserSuccess,
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
@@ -73,4 +75,16 @@ export class UsersEffects {
       );
     }))
   );
+
+  editUser = createEffect(() => this.actions.pipe(
+    ofType(editUserRequest),
+    mergeMap(({userData}) => this.usersService.edit(userData).pipe(
+      map((user) => editUserSuccess({user})),
+      tap(() => {
+        this.helpers.openSnackbar('Profile edited');
+        void this.router.navigate(['/profile']);
+      }),
+      this.helpers.catchServerError(editUserFailure)
+    )),
+  ));
 }

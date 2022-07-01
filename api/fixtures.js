@@ -12,15 +12,15 @@ const run = async () => {
     }
 
     await User.create({
-        avatar: null,
-        displayName: 'user',
-        email: 'user@gmail.com',
+        avatar: 'grogu.png',
+        displayName: 'Grogu',
+        email: 'grogu@gmail.com',
         password: '123',
-        token: 'user',
+        token: 'Grogu',
         role: 'user',
     }, {
-        avatar: null,
-        displayName: 'admin',
+        avatar: 'cat.jpg',
+        displayName: 'Admin',
         email: 'admin@gmail.com',
         password: '123',
         token: 'admin',

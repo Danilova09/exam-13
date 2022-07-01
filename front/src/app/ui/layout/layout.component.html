@@ -1,13 +1,18 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
+  <mat-sidenav #drawer
+               class="sidenav"
+               fixedInViewport
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Category 1</a>
-      <a mat-list-item href="#">Category 2</a>
-      <a mat-list-item href="#">Category 3</a>
+      <a mat-list-item
+         href="#">Category 1</a>
+      <a mat-list-item
+         href="#">Category 2</a>
+      <a mat-list-item
+         href="#">Category 3</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -27,18 +32,32 @@
         </button>
         <a routerLink="/">Logo</a>
       </div>
-      <!-- <ng-template> -->
       <nav *appUserType="'user' else anonMenu">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
+        <div
+          [matMenuTriggerFor]="menu"
+          *ngIf="(user | async)?.avatar ">
+          <img
+            class="avatar_img"
+            [src]="env.avatarsUploadPath + (user | async)?.avatar"
+            [alt]="(user | async)?.displayName">
+        </div>
+        <button
+          *ngIf="!(user | async)?.avatar"
+          mat-icon-button
+          [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item disabled>{{ (user | async)?.email }}</button>
-          <button mat-menu-item>Profile</button>
-          <button mat-menu-item (click)="logout()">Logout</button>
+          <button mat-menu-item
+                  disabled>{{ (user | async)?.email }}</button>
+          <button mat-menu-item
+                  routerLink="profile">Profile
+          </button>
+          <button mat-menu-item
+                  (click)="logout()">Logout
+          </button>
         </mat-menu>
       </nav>
-      <!-- </ng-template> -->
     </mat-toolbar>
     <div class="content">
       <ng-content></ng-content>
@@ -48,7 +67,9 @@
 
 <ng-template #anonMenu>
   <nav>
-    <a mat-button routerLink="/register">REGISTER</a>
-    <a mat-button routerLink="/login">SIGN IN</a>
+    <a mat-button
+       routerLink="/register">REGISTER</a>
+    <a mat-button
+       routerLink="/login">SIGN IN</a>
   </nav>
 </ng-template>

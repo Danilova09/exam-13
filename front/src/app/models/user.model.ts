@@ -15,6 +15,13 @@ export interface User {
   token: string,
 }
 
+export interface EditUserData {
+  [key: string]: any,
+  displayName: string,
+  email: string,
+  avatar: null | File,
+}
+
 export interface LoginUserData {
   email: string,
   password: string,

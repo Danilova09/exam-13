@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   authStateSub!: Subscription;
   sub!: Subscription;
   userData!: SocialUser;
+  loginFb = false;
 
   constructor(
     private store: Store<AppState>,
@@ -35,7 +36,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authStateSub = this.auth.authState.subscribe((userData: SocialUser) => {
       this.userData = userData;
-      this.store.dispatch(loginWithFbRequest({userData: this.userData}));
+      if (this.loginFb) {
+        this.store.dispatch(loginWithFbRequest({userData: this.userData}));
+      }
     });
   }
 
@@ -45,6 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   fbLogin() {
+    this.loginFb = true;
     void this.auth.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 
