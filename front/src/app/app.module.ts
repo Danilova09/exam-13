@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutComponent } from './ui/layout/layout.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -35,6 +35,7 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PlacesComponent } from './pages/places/places.component';
 import { AddPlaceComponent } from './pages/add-place/add-place.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -78,7 +79,6 @@ const socialConfig: SocialAuthServiceConfig = {
     MatListModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatMenuModule,
@@ -86,6 +86,9 @@ const socialConfig: SocialAuthServiceConfig = {
     AppStoreModule,
     MatSelectModule,
     SocialLoginModule,
+    MatCheckboxModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

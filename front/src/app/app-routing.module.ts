@@ -16,22 +16,26 @@ const routes: Routes = [
   {
     path: 'edit-profile',
     component: EditProfileComponent,
-    canActivate: [RoleGuardService]
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [RoleGuardService]
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
   },
   {
     path: 'places',
     component: PlacesComponent,
-    canActivate: [RoleGuardService]
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
   },
   {
     path: 'add-place',
     component: AddPlaceComponent,
-    canActivate: [RoleGuardService]
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
   },
 ];
 

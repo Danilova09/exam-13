@@ -4,9 +4,17 @@ import { PlacesService } from '../services/places.service';
 import { HelpersService } from '../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './types';
-import { catchError, mergeMap, of } from 'rxjs';
-import { fetchPlacesFailure, fetchPlacesRequest, fetchPlacesSuccess } from './places.actions';
+import { catchError, mergeMap, of, tap } from 'rxjs';
+import {
+  createPlaceFailure,
+  createPlaceRequest,
+  createPlaceSuccess,
+  fetchPlacesFailure,
+  fetchPlacesRequest,
+  fetchPlacesSuccess
+} from './places.actions';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PlacesEffects {
@@ -16,6 +24,7 @@ export class PlacesEffects {
     private placesService: PlacesService,
     private helpers: HelpersService,
     private store: Store<AppState>,
+    private router: Router,
   ) {
   }
 
@@ -26,6 +35,18 @@ export class PlacesEffects {
       catchError(() => of(fetchPlacesFailure({
         error: 'Something went wrong!'
       })))
+    ))
+  ));
+
+  createPlace = createEffect(() => this.actions.pipe(
+    ofType(createPlaceRequest),
+    mergeMap(({placeData}) => this.placesService.createPlace(placeData).pipe(
+      map(() => createPlaceSuccess()),
+      tap(() => {
+        this.helpers.openSnackbar('Place created');
+        void this.router.navigate(['/']);
+      }),
+      catchError(() => of(createPlaceFailure({error: 'Wrong data'})))
     ))
   ));
 

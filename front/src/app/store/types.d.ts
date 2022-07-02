@@ -13,7 +13,8 @@ export type PlacesState = {
   places: Place[],
   fetchLoading: Boolean,
   fetchError: null | string,
-
+  createLoading: boolean,
+  createError: null | string,
 }
 
 export type AppState = {
