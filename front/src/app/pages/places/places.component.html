@@ -25,6 +25,7 @@
             mat-button
             color="warn"
             *appHasRoles="['admin']"
+            (click)="delete(place._id)"
           >DELETE
           </button>
         </mat-card-actions>

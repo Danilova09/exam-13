@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/types';
 import { Observable } from 'rxjs';
 import { Place } from '../../models/place.model';
-import { fetchPlacesRequest } from '../../store/places.actions';
+import { fetchPlacesRequest, removePlaceRequest } from '../../store/places.actions';
 import { User } from '../../models/user.model';
 import { environment } from '../../../environments/environment';
 
@@ -32,7 +32,7 @@ export class PlacesComponent implements OnInit {
     this.store.dispatch(fetchPlacesRequest());
   }
 
-  delete(_id: any) {
-
+  delete(id: string) {
+    this.store.dispatch(removePlaceRequest({id}));
   }
 }

@@ -11,7 +11,7 @@ import {
   createPlaceSuccess,
   fetchPlacesFailure,
   fetchPlacesRequest,
-  fetchPlacesSuccess
+  fetchPlacesSuccess, removePlaceRequest, removePlaceSuccess
 } from './places.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -47,6 +47,17 @@ export class PlacesEffects {
         void this.router.navigate(['/']);
       }),
       catchError(() => of(createPlaceFailure({error: 'Wrong data'})))
+    ))
+  ));
+
+  removePlace = createEffect(() => this.actions.pipe(
+    ofType(removePlaceRequest),
+    mergeMap(({id}) => this.placesService.removePlace(id).pipe(
+      map(() => removePlaceSuccess()),
+      tap(() => {
+        this.store.dispatch(fetchPlacesRequest());
+        this.helpers.openSnackbar('Deleted Successfully');
+      })
     ))
   ));
 

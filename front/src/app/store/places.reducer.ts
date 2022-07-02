@@ -6,7 +6,7 @@ import {
   createPlaceSuccess,
   fetchPlacesFailure,
   fetchPlacesRequest,
-  fetchPlacesSuccess
+  fetchPlacesSuccess, removePlaceRequest, removePlaceSuccess
 } from './places.actions';
 
 const initialState: PlacesState = {
@@ -25,4 +25,6 @@ export const placesReducer = createReducer(
   on(createPlaceRequest, state => ({...state, createLoading: true})),
   on(createPlaceSuccess, state => ({...state, createLoading: false})),
   on(createPlaceFailure, (state, {error}) => ({...state, createLoading: false, createError: error,})),
+  on(removePlaceRequest, (state) => ({...state, fetchLoading: true})),
+  on(removePlaceSuccess, state => ({...state, fetchLoading: false})),
 );

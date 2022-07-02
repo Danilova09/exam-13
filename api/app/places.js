@@ -9,6 +9,7 @@ const axios = require("axios");
 const router = express.Router();
 const download = require('image-downloader');
 const auth = require("../middleware/auth");
+const permit = require("../middleware/permit");
 
 
 const storage = multer.diskStorage({
@@ -59,6 +60,18 @@ router.post('/', auth, upload.single('mainPhoto'), async (req, res, next) => {
         }
 
         return next(e);
+    }
+});
+
+router.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+    try {
+        const post = await Place.findByIdAndDelete(req.params.id);
+        if (!post) {
+            return res.send({message: 'ok'});
+        }
+        res.send(post);
+    } catch (e) {
+        next(e);
     }
 });
 

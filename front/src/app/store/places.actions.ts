@@ -8,3 +8,6 @@ export const fetchPlacesFailure = createAction('[Places] Fetch Failure', props<{
 export const createPlaceRequest = createAction('[Places] Create Request', props<{placeData: PlaceData}>());
 export const createPlaceSuccess = createAction('[Places] Create Success');
 export const createPlaceFailure = createAction('[Places] Create Failure', props<{error: string}>());
+
+export const removePlaceRequest = createAction('[Place] Remove Request', props<{id: string}>());
+export const removePlaceSuccess = createAction('[Place] Remove Success');
