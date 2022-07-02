@@ -11,3 +11,8 @@ export interface ImageData {
   place: string | undefined,
   image: File,
 }
+
+export interface DeleteImageData {
+  placeId: string,
+  imageId: string,
+}

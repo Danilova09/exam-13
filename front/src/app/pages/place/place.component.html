@@ -34,7 +34,7 @@
               mat-button
               color="warn"
               *appHasRoles="['admin']"
-              (click)="delete(image._id)"
+              (click)="delete(image)"
             >DELETE
             </button>
           </mat-card-actions>
@@ -44,7 +44,7 @@
 
     <mat-divider></mat-divider>
     <div class="upload-image-block">
-      <h2>Upload photo</h2> 
+      <h2>Upload photo</h2>
       <form fxLayout="column"
             fxLayoutAlign="center"
             #imageForm="ngForm"

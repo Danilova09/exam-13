@@ -14,7 +14,7 @@ import {
 } from './images.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { fetchPlaceById } from './places.actions';
+import { fetchPlaceById, fetchPlaceByIdSuccess } from './places.actions';
 
 @Injectable()
 export class ImagesEffects {
@@ -42,9 +42,10 @@ export class ImagesEffects {
 
   removeImage = createEffect(() => this.actions.pipe(
     ofType(removeImageRequest),
-    mergeMap(({id}) => this.imagesService.removeImage(id).pipe(
-      map(() => removeImageSuccess()),
-      tap(() => {
+    mergeMap(({deleteImageData}) => this.imagesService.removeImage(deleteImageData).pipe(
+      map((updatedPlace) => removeImageSuccess({updatedPlace})),
+      tap(({updatedPlace}) => {
+        this.store.dispatch(fetchPlaceByIdSuccess({place: updatedPlace}));
         this.helpers.openSnackbar('Deleted Successfully');
       })
     ))

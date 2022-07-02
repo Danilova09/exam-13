@@ -22,6 +22,6 @@ export const imagesReducer = createReducer(
   on(createImageSuccess, state => ({...state, createLoading: false})),
   on(createImageFailure, (state, {error}) => ({...state, createLoading: false, createError: error,})),
   on(removeImageRequest, (state) => ({...state, deleteLoading: true})),
-  on(removeImageSuccess, state => ({...state, deleteLoading: false})),
+  on(removeImageSuccess, (state) => ({...state, deleteLoading: false})),
   on(removeImageFailure, state => ({...state, deleteLoading: false})),
 );

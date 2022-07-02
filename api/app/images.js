@@ -6,9 +6,7 @@ const Image = require('../models/Image');
 const Place = require('../models/Place');
 const mongoose = require("mongoose");
 const config = require('../config');
-const axios = require("axios");
 const router = express.Router();
-const download = require('image-downloader');
 const auth = require("../middleware/auth");
 const permit = require("../middleware/permit");
 
@@ -55,8 +53,6 @@ router.post('/', auth, upload.single('image'), async (req, res, next) => {
             {
                 $push: {images: image}
             });
-
-        console.log(place);
 
         res.send(image);
     } catch (e) {

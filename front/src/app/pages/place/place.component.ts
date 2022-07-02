@@ -9,7 +9,8 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { NgForm } from '@angular/forms';
 import { ImagesService } from '../../services/images.service';
-import { createImageRequest } from '../../store/images.actions';
+import { createImageRequest, removeImageRequest } from '../../store/images.actions';
+import { Image } from '../../models/image.model';
 
 @Component({
   selector: 'app-place',
@@ -50,7 +51,14 @@ export class PlaceComponent implements OnInit, OnDestroy {
     this.placeSub.unsubscribe();
   }
 
-  delete(_id: string) {
+  delete(image: Image) {
+    const deleteImageData = {
+      imageId: image._id,
+      placeId: image.place,
+    }
+
+    // this.imagesService.removeImage(deleteImageData);
+    this.store.dispatch(removeImageRequest({deleteImageData}));
 
   }
 
