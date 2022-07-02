@@ -24,3 +24,8 @@ export interface ReviewData {
     interior: number,
   },
 }
+
+export interface DeleteReviewData {
+  placeId: string | undefined
+  reviewId: string | undefined,
+}

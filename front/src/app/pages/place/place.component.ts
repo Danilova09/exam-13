@@ -13,7 +13,7 @@ import { createImageRequest, removeImageRequest } from '../../store/images.actio
 import { Image } from '../../models/image.model';
 import { Review } from '../../models/review.model';
 import { ReviewsService } from '../../services/reviews.service';
-import { createReviewRequest } from '../../store/reviews.actions';
+import { createReviewRequest, removeReviewFailure, removeReviewRequest } from '../../store/reviews.actions';
 
 @Component({
   selector: 'app-place',
@@ -75,7 +75,11 @@ export class PlaceComponent implements OnInit, OnDestroy {
   }
 
   deleteReview(review: Review) {
-
+    const deleteReviewData = {
+      reviewId: review._id,
+      placeId: review.place,
+    }
+    this.store.dispatch(removeReviewRequest({deleteReviewData}));
   }
 
   postReview(place: Place | null) {
@@ -89,7 +93,6 @@ export class PlaceComponent implements OnInit, OnDestroy {
         interior: parseInt(this.reviewFrom.controls['interior'].value),
       }
     }
-
     this.store.dispatch(createReviewRequest({reviewData}));
   }
 }

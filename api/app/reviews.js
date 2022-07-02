@@ -50,8 +50,6 @@ router.post('/', auth, async (req, res, next) => {
 
         reviewData.ratings = ratingsData;
 
-        console.log(ratingsData);
-
         const review = new Review(reviewData);
         await review.save();
 
@@ -74,11 +72,21 @@ router.post('/', auth, async (req, res, next) => {
 
 router.delete('/:id', auth, permit('admin'), async (req, res, next) => {
     try {
-        const post = await Review.findByIdAndDelete(req.params.id);
-        if (!post) {
+        const placeId = req.body.placeId;
+        const reviewId = req.body.reviewId;
+
+        const place =  await Place.updateOne(
+            {_id: placeId},
+            {$pull: {reviews: {_id: reviewId}}},
+            {"multi": true}
+        )
+
+        const updatedPlace = await Place.findById(placeId);
+
+        if (!updatedPlace) {
             return res.send({message: 'ok'});
         }
-        res.send(post);
+        return res.send(updatedPlace);
     } catch (e) {
         next(e);
     }

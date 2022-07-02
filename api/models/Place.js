@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ImageSchema = require('./Image').ImageSchema;
+const ReviewSchema = require('./Review').ReviewSchema;
 const Schema = mongoose.Schema;
 
 const PlaceSchema = new mongoose.Schema({
@@ -31,7 +32,7 @@ const PlaceSchema = new mongoose.Schema({
         default: [],
     },
     reviews: {
-        type: [],
+        type: [ReviewSchema],
         default: [],
     }
 });

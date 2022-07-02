@@ -1,27 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { PlacesService } from '../services/places.service';
 import { HelpersService } from '../services/helpers.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './types';
 import { catchError, mergeMap, of, tap } from 'rxjs';
-import {
-  createPlaceFailure,
-  createPlaceRequest,
-  createPlaceSuccess,
-  fetchPlaceById,
-  fetchPlaceByIdFailure,
-  fetchPlaceByIdSuccess,
-  fetchPlacesFailure,
-  fetchPlacesRequest,
-  fetchPlacesSuccess,
-  removePlaceRequest,
-  removePlaceSuccess
-} from './places.actions';
+import { createPlaceFailure, fetchPlaceById, fetchPlaceByIdSuccess } from './places.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ReviewsService } from '../services/reviews.service';
-import { createReviewRequest, createReviewSuccess } from './reviews.actions';
+import { createReviewRequest, createReviewSuccess, removeReviewRequest, removeReviewSuccess } from './reviews.actions';
 
 @Injectable()
 export class ReviewsEffects {
@@ -44,6 +31,17 @@ export class ReviewsEffects {
         this.helpers.openSnackbar('Review created');
       }),
       catchError(() => of(createPlaceFailure({error: 'Wrong data'})))
+    ))
+  ));
+
+  removeReview = createEffect(() => this.actions.pipe(
+    ofType(removeReviewRequest),
+    mergeMap(({deleteReviewData}) => this.reviewsService.removeReview(deleteReviewData).pipe(
+      map((updatedPlace) => removeReviewSuccess({updatedPlace})),
+      tap(({updatedPlace}) => {
+        this.store.dispatch(fetchPlaceByIdSuccess({place: updatedPlace}));
+        this.helpers.openSnackbar('Deleted Successfully');
+      })
     ))
   ));
 }

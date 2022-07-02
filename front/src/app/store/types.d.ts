@@ -29,6 +29,8 @@ export type ImagesState = {
 export type ReviewsState = {
   createLoading: boolean,
   createError: null | string,
+  deleteLoading: boolean,
+  deleteError: null | string,
 }
 
 
