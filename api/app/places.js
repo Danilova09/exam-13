@@ -13,7 +13,7 @@ const auth = require("../middleware/auth");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, config.avatarsUploadPath);
+        cb(null, config.placesUploadPath);
     },
     filename: (req, file, cb) => {
         cb(null, nanoid() + path.extname(file.originalname));

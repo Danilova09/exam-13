@@ -1,4 +1,5 @@
 export interface Place {
+  _id: string,
   owner: string,
   title: string,
   description: string,

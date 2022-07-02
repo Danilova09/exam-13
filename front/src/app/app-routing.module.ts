@@ -7,19 +7,37 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PlacesComponent } from './pages/places/places.component';
 import { AddPlaceComponent } from './pages/add-place/add-place.component';
+import { RoleGuardService } from './services/role-guard.service';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'edit-profile', component: EditProfileComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'places', component: PlacesComponent},
-  {path: 'add-place', component: AddPlaceComponent},
+  {
+    path: 'edit-profile',
+    component: EditProfileComponent,
+    canActivate: [RoleGuardService]
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [RoleGuardService]
+  },
+  {
+    path: 'places',
+    component: PlacesComponent,
+    canActivate: [RoleGuardService]
+  },
+  {
+    path: 'add-place',
+    component: AddPlaceComponent,
+    canActivate: [RoleGuardService]
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
