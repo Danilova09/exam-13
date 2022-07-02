@@ -7,6 +7,7 @@ export const environment = {
   apiUrl: 'http://localhost:8000',
   avatarsUploadPath: 'http://localhost:8000/uploads/images/avatars/',
   placesUploadPath: 'http://localhost:8000/uploads/images/places/',
+  placesImagesUploadPath: 'http://localhost:8000/uploads/images/placesImages/',
   fbAppId: '4b3ebfffaa9b12649084a85d69f648a5',
 };
 

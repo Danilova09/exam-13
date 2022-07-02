@@ -8,6 +8,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { PlacesComponent } from './pages/places/places.component';
 import { AddPlaceComponent } from './pages/add-place/add-place.component';
 import { RoleGuardService } from './services/role-guard.service';
+import { PlaceComponent } from './pages/place/place.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -34,6 +35,11 @@ const routes: Routes = [
   {
     path: 'add-place',
     component: AddPlaceComponent,
+    canActivate: [RoleGuardService],
+    data: {roles: ['admin', 'user']}
+  },{
+    path: 'place/:id',
+    component: PlaceComponent,
     canActivate: [RoleGuardService],
     data: {roles: ['admin', 'user']}
   },

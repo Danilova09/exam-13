@@ -1,0 +1,19 @@
+<mat-card>
+  <h1>{{ place?.title }}</h1>
+  <div class="place-img-wrapper">
+    <img
+      class="place-img"
+      [src]="env.placesUploadPath + place?.mainPhoto"
+      [alt]="place?.title">
+  </div>
+  <mat-card-content>
+    <p class="place-description">
+      <strong>Description: </strong>
+      {{ place?.description }}
+    </p>
+    <mat-divider></mat-divider>
+    <div class="place-gallery-block">
+      <h2 class="place-gallery-title">Gallery</h2>
+    </div>
+  </mat-card-content>
+</mat-card>

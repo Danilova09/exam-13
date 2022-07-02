@@ -10,6 +10,7 @@ export type UsersState = {
 }
 
 export type PlacesState = {
+  place: Place | null,
   places: Place[],
   fetchLoading: Boolean,
   fetchError: null | string,

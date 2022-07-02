@@ -19,6 +19,7 @@ module.exports = {
     rootPath,
     avatarsUploadPath: path.join(rootPath, 'public/uploads/images/avatars'),
     placesUploadPath: path.join(rootPath, 'public/uploads/images/places'),
+    placesImagesUploadPath: path.join(rootPath, 'public/uploads/images/placesImages'),
     uploadPath: path.join(rootPath, 'public/uploads'),
     mongo: {
         db: dbUrl,

@@ -33,6 +33,10 @@ export class PlacesService {
     return this.http.post(env.apiUrl + '/places', formData);
   }
 
+  getPlaceById(placeId: string | null) {
+    return this.http.get<Place>(env.apiUrl + '/places/' + placeId);
+  }
+
   removePlace(placeId: string) {
     return this.http.delete<Place[]>(env.apiUrl + '/places/' + placeId);
   }

@@ -8,7 +8,7 @@ import { catchError, mergeMap, of, tap } from 'rxjs';
 import {
   createPlaceFailure,
   createPlaceRequest,
-  createPlaceSuccess,
+  createPlaceSuccess, fetchPlaceById, fetchPlaceByIdFailure, fetchPlaceByIdSuccess,
   fetchPlacesFailure,
   fetchPlacesRequest,
   fetchPlacesSuccess, removePlaceRequest, removePlaceSuccess
@@ -58,6 +58,14 @@ export class PlacesEffects {
         this.store.dispatch(fetchPlacesRequest());
         this.helpers.openSnackbar('Deleted Successfully');
       })
+    ))
+  ));
+
+  fetchPlaceById = createEffect(() => this.actions.pipe(
+    ofType(fetchPlaceById),
+    mergeMap(({id}) => this.placesService.getPlaceById(id).pipe(
+      map((place) => fetchPlaceByIdSuccess({place})),
+      catchError(() => of(fetchPlaceByIdFailure({error: 'Something went wrong'})))
     ))
   ));
 

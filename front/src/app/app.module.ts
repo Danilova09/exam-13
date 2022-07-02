@@ -36,6 +36,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { PlacesComponent } from './pages/places/places.component';
 import { AddPlaceComponent } from './pages/add-place/add-place.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PlaceComponent } from './pages/place/place.component';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -64,6 +65,7 @@ const socialConfig: SocialAuthServiceConfig = {
     ProfileComponent,
     PlacesComponent,
     AddPlaceComponent,
+    PlaceComponent,
   ],
   imports: [
     BrowserModule,
