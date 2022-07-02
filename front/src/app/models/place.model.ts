@@ -1,4 +1,5 @@
 import { Image } from './image.model';
+import { Review } from './review.model';
 
 export interface Place {
   _id: string,
@@ -8,7 +9,13 @@ export interface Place {
   mainPhoto: string,
   isAgree: string,
   images: Image[],
-  reviews: [],
+  reviews: Review[],
+  ratings: {
+    overAll: number,
+    food: number,
+    service: number,
+    interior: number,
+  },
 }
 
 export interface PlaceData {

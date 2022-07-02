@@ -26,6 +26,12 @@ export type ImagesState = {
   deleteError: null | string,
 }
 
+export type ReviewsState = {
+  createLoading: boolean,
+  createError: null | string,
+}
+
+
 export type AppState = {
   users: UsersState,
   places: PlacesState,

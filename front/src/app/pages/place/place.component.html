@@ -7,8 +7,8 @@
       [alt]="place?.title">
   </div>
   <mat-card-content>
+    <p><strong>Description:</strong></p>
     <p class="place-description">
-      <strong>Description: </strong>
       {{ place?.description }}
     </p>
     <mat-divider></mat-divider>
@@ -40,6 +40,108 @@
           </mat-card-actions>
         </mat-card-content>
       </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+
+
+    <h2 class="place-gallery-title">Reviews</h2>
+
+    <div
+      class="reviews-list"
+      fxLayout.xs="column"
+      fxLayout="row wrap"
+      fxLayoutGap="15px"
+      ngClass.gt-xs="ml-15">
+      <mat-card
+        *ngFor="let review of place?.reviews"
+        fxFlex.sm="0 1 calc(30%-15px)"
+        fxFlex.md="0 1 calc(30%-15px)"
+        fxFlex.gt-md="0 1 calc(20%-15px)">
+        <mat-card-content>
+          <p>{{ review.description }}</p>
+          <p>Food: {{ review.ratings.food }}</p>
+          <p>Service: {{ review.ratings.service }}</p>
+          <p>Interior: {{ review.ratings.interior }}</p>
+          <mat-card-actions>
+            <button
+              mat-button
+              color="warn"
+              *appHasRoles="['admin']"
+              (click)="deleteReview(review)"
+            >DELETE
+            </button>
+          </mat-card-actions>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="reviews-block">
+      <h2>Add review</h2>
+      <form
+        #reviewForm="ngForm"
+      >
+        <div fxLayout="row"
+             fxLayoutAlign="center">
+
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <input type="text"
+                 name="description"
+                 required
+                 #description="ngModel"
+                 ngModel
+                 matInput>
+          <mat-error *ngIf="description.touched && description.hasError('required')">
+            Description is required!
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Quality of food</mat-label>
+          <mat-select name="food" ngModel #food="ngModel" required>
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+          </mat-select>
+          <mat-error *ngIf="food.touched && food.hasError('required')">
+             Field is required!
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Service quality</mat-label>
+          <mat-select name="service" ngModel #service="ngModel" required>
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+          </mat-select>
+          <mat-error *ngIf="service.touched && service.hasError('required')">
+            Field is required!
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Interior</mat-label>
+          <mat-select  name="interior" ngModel #interior="ngModel" required>
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+            <mat-option value="5">5</mat-option>
+          </mat-select>
+          <mat-error *ngIf="interior.touched && interior.hasError('required')">
+            Field is required!
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button
+                class="review-btn"
+                (click)="postReview(place)"
+                color="primary">ADD REVIEW
+        </button>
+      </form>
     </div>
 
     <mat-divider></mat-divider>

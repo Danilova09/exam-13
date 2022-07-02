@@ -11,6 +11,9 @@ import { NgForm } from '@angular/forms';
 import { ImagesService } from '../../services/images.service';
 import { createImageRequest, removeImageRequest } from '../../store/images.actions';
 import { Image } from '../../models/image.model';
+import { Review } from '../../models/review.model';
+import { ReviewsService } from '../../services/reviews.service';
+import { createReviewRequest } from '../../store/reviews.actions';
 
 @Component({
   selector: 'app-place',
@@ -19,6 +22,7 @@ import { Image } from '../../models/image.model';
 })
 export class PlaceComponent implements OnInit, OnDestroy {
   @ViewChild('imageForm') imageForm!: NgForm;
+  @ViewChild('reviewForm') reviewFrom!: NgForm;
   placeSub!: Subscription;
   placeId!: string | undefined;
   myId!: string | undefined;
@@ -29,7 +33,7 @@ export class PlaceComponent implements OnInit, OnDestroy {
     private placeService: PlacesService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private imagesService: ImagesService,
+    private reviewsService: ReviewsService,
   ) {
      this.placeSub = store.select(state => state.places.place).subscribe(place => {
       this.place = place;
@@ -56,10 +60,7 @@ export class PlaceComponent implements OnInit, OnDestroy {
       imageId: image._id,
       placeId: image.place,
     }
-
-    // this.imagesService.removeImage(deleteImageData);
     this.store.dispatch(removeImageRequest({deleteImageData}));
-
   }
 
   onAddPhoto() {
@@ -71,6 +72,25 @@ export class PlaceComponent implements OnInit, OnDestroy {
     if (this.imageForm.valid) {
       this.store.dispatch(createImageRequest({imageData}));
     }
+  }
+
+  deleteReview(review: Review) {
+
+  }
+
+  postReview(place: Place | null) {
+    const reviewData = {
+      author: this.myId,
+      place: place?._id,
+      description: this.reviewFrom.controls['description'].value,
+      ratings: {
+        food: parseInt(this.reviewFrom.controls['food'].value),
+        service: parseInt(this.reviewFrom.controls['service'].value),
+        interior: parseInt(this.reviewFrom.controls['interior'].value),
+      }
+    }
+
+    this.store.dispatch(createReviewRequest({reviewData}));
   }
 }
 
