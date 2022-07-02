@@ -10,7 +10,7 @@
   Сценарий: Логин
     Допустим  я нахожусь на странице "Логин"
     Если я ввожу в поля формы:
-      | Email    | user@gmail.com |
+      | Email    | grogu@gmail.com |
       | Password | 123            |
     И нажимаю на кнопку формы "SIGN IN"
     То я должен увидеть текст "Login successful"
