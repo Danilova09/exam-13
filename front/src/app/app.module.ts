@@ -33,6 +33,8 @@ import { CenteredCardComponent } from './ui/centered-card/centered-card.componen
 import { FileInputComponent } from './ui/file-input/file-input.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { PlacesComponent } from './pages/places/places.component';
+import { AddPlaceComponent } from './pages/add-place/add-place.component';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -59,6 +61,8 @@ const socialConfig: SocialAuthServiceConfig = {
     FileInputComponent,
     EditProfileComponent,
     ProfileComponent,
+    PlacesComponent,
+    AddPlaceComponent,
   ],
   imports: [
     BrowserModule,

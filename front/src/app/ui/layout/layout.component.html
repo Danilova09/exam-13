@@ -8,9 +8,9 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item
-         href="#">Category 1</a>
+         href="#">All Places</a>
       <a mat-list-item
-         href="#">Category 2</a>
+         href="#">Add Place</a>
       <a mat-list-item
          href="#">Category 3</a>
     </mat-nav-list>
@@ -30,7 +30,7 @@
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <a routerLink="/">Logo</a>
+        <a routerLink="/">Cafe Critic</a>
       </div>
       <nav *appUserType="'user' else anonMenu">
         <div
@@ -52,6 +52,12 @@
                   disabled>{{ (user | async)?.email }}</button>
           <button mat-menu-item
                   routerLink="profile">Profile
+          </button>
+          <button mat-menu-item
+                  routerLink="places">All Places
+          </button>
+          <button mat-menu-item
+                  routerLink="add-place">Add Place
           </button>
           <button mat-menu-item
                   (click)="logout()">Logout
