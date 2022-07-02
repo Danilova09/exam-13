@@ -8,10 +8,15 @@ import { catchError, mergeMap, of, tap } from 'rxjs';
 import {
   createPlaceFailure,
   createPlaceRequest,
-  createPlaceSuccess, fetchPlaceById, fetchPlaceByIdFailure, fetchPlaceByIdSuccess,
+  createPlaceSuccess,
+  fetchPlaceById,
+  fetchPlaceByIdFailure,
+  fetchPlaceByIdSuccess,
   fetchPlacesFailure,
   fetchPlacesRequest,
-  fetchPlacesSuccess, removePlaceRequest, removePlaceSuccess
+  fetchPlacesSuccess,
+  removePlaceRequest,
+  removePlaceSuccess
 } from './places.actions';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';

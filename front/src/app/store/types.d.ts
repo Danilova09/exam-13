@@ -12,13 +12,22 @@ export type UsersState = {
 export type PlacesState = {
   place: Place | null,
   places: Place[],
-  fetchLoading: Boolean,
+  fetchLoading: boolean,
   fetchError: null | string,
   createLoading: boolean,
   createError: null | string,
 }
 
+
+export type ImagesState = {
+  createLoading: boolean,
+  createError: null | string,
+  deleteLoading: boolean,
+  deleteError: null | string,
+}
+
 export type AppState = {
   users: UsersState,
   places: PlacesState,
+  images: ImagesState,
 }

@@ -35,9 +35,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        console.log(req.params.id);
         if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-            const place = await Place.findById(req.params.id);
+            const place = await Place.findById(req.params.id)
+                .populate([{path: 'images.image', select: 'author place image'}]);
+
             return res.send(place);
         }
         return res.status(400).send({error: 'not found'});

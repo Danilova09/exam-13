@@ -3,6 +3,7 @@ const multer = require('multer');
 const {nanoid} = require('nanoid');
 const path = require('path');
 const Image = require('../models/Image');
+const Place = require('../models/Place');
 const mongoose = require("mongoose");
 const config = require('../config');
 const axios = require("axios");
@@ -36,10 +37,9 @@ router.get('/', async (req, res, next) => {
 router.post('/', auth, upload.single('image'), async (req, res, next) => {
     try {
         const imageData = {
-            author: req.body.author.toString(),
-            place: req.body.place.toString(),
+            author: req.body.author,
+            place: req.body.place,
         }
-
 
         if (req.file) {
             imageData.image = req.file.filename;
@@ -49,6 +49,15 @@ router.post('/', auth, upload.single('image'), async (req, res, next) => {
 
         const image = new Image(imageData);
         await image.save();
+
+        const place = await Place.updateOne(
+            {_id: imageData.place},
+            {
+                $push: {images: image}
+            });
+
+        console.log(place);
+
         res.send(image);
     } catch (e) {
         if (e instanceof mongoose.Error.ValidationError) {
@@ -61,11 +70,21 @@ router.post('/', auth, upload.single('image'), async (req, res, next) => {
 
 router.delete('/:id', auth, permit('admin'), async (req, res, next) => {
     try {
-        const post = await Image.findByIdAndDelete(req.params.id);
-        if (!post) {
+        const placeId = req.body.placeId;
+        const imageId = req.body.imageId;
+
+        await Place.updateOne(
+            {_id: placeId},
+            {$pull: {images: {_id: imageId}}},
+            {"multi": true}
+        )
+
+        const updatedPlace = await Place.findById(placeId);
+
+        if (!updatedPlace) {
             return res.send({message: 'ok'});
         }
-        res.send(post);
+        return res.send(updatedPlace);
     } catch (e) {
         next(e);
     }

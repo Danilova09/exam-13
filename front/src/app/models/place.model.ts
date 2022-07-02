@@ -1,3 +1,5 @@
+import { Image } from './image.model';
+
 export interface Place {
   _id: string,
   owner: string,
@@ -5,7 +7,7 @@ export interface Place {
   description: string,
   mainPhoto: string,
   isAgree: string,
-  images: [],
+  images: Image[],
   reviews: [],
 }
 

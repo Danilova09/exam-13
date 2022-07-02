@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PlacesService } from '../../services/places.service';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,6 +7,9 @@ import { Place } from '../../models/place.model';
 import { fetchPlaceById } from '../../store/places.actions';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { NgForm } from '@angular/forms';
+import { ImagesService } from '../../services/images.service';
+import { createImageRequest } from '../../store/images.actions';
 
 @Component({
   selector: 'app-place',
@@ -14,9 +17,10 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./place.component.sass']
 })
 export class PlaceComponent implements OnInit, OnDestroy {
-  placeIdSub!: Subscription;
+  @ViewChild('imageForm') imageForm!: NgForm;
   placeSub!: Subscription;
-  placeId!: string;
+  placeId!: string | undefined;
+  myId!: string | undefined;
   place!: Place | null;
   env = environment;
 
@@ -24,11 +28,15 @@ export class PlaceComponent implements OnInit, OnDestroy {
     private placeService: PlacesService,
     private store: Store<AppState>,
     private route: ActivatedRoute,
+    private imagesService: ImagesService,
   ) {
      this.placeSub = store.select(state => state.places.place).subscribe(place => {
       this.place = place;
-      console.log(this.place);
+      this.placeId = place?._id;
     });
+     store.select(state => state.users.user).subscribe(user => {
+       this.myId = user?._id;
+     })
   }
 
   ngOnInit(): void {
@@ -39,8 +47,22 @@ export class PlaceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.placeIdSub.unsubscribe();
     this.placeSub.unsubscribe();
+  }
+
+  delete(_id: string) {
+
+  }
+
+  onAddPhoto() {
+    const imageData = {
+      author: this.myId,
+      place: this.placeId,
+      image: this.imageForm.controls['image'].value,
+    }
+    if (this.imageForm.valid) {
+      this.store.dispatch(createImageRequest({imageData}));
+    }
   }
 }
 

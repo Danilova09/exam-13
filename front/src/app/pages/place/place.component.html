@@ -12,8 +12,53 @@
       {{ place?.description }}
     </p>
     <mat-divider></mat-divider>
-    <div class="place-gallery-block">
-      <h2 class="place-gallery-title">Gallery</h2>
+
+    <h2 class="place-gallery-title">Gallery</h2>
+    <div
+      class="images-list"
+      fxLayout.xs="column"
+      fxLayout="row wrap"
+      fxLayoutGap="15px"
+      ngClass.gt-xs="ml-15">
+      <mat-card
+        *ngFor="let image of place?.images"
+        fxFlex.sm="0 1 calc(30%-15px)"
+        fxFlex.md="0 1 calc(30%-15px)"
+        fxFlex.gt-md="0 1 calc(20%-15px)">
+        <img mat-card-image
+             [src]="env.placesImagesUploadPath + image.image"
+             [alt]="place?.title">
+        <mat-card-content>
+          <mat-card-actions>
+            <button
+              mat-button
+              color="warn"
+              *appHasRoles="['admin']"
+              (click)="delete(image._id)"
+            >DELETE
+            </button>
+          </mat-card-actions>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="upload-image-block">
+      <h2>Upload photo</h2> 
+      <form fxLayout="column"
+            fxLayoutAlign="center"
+            #imageForm="ngForm"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Image</mat-label>
+          <app-file-input name="image"
+                          ngModel></app-file-input>
+        </mat-form-field>
+        <button mat-raised-button
+                (click)="onAddPhoto()"
+                color="primary">UPLOAD
+        </button>
+      </form>
     </div>
   </mat-card-content>
 </mat-card>
